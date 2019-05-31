@@ -11,7 +11,7 @@ import { useLocalStorage, useWindowSize } from '../utils/Hooks';
 import GothamBook from '../fonts/gotham-book.woff2';
 import GothamMedium from '../fonts/gotham-medium.woff2';
 import Loader from '../components/Loader';
-
+//test
 const Home = lazy(() => import('../screens/Home'));
 const Lab = lazy(() => import('../screens/Lab'));
 const BellsGC = lazy(() => import('../screens/BellsGC'));
