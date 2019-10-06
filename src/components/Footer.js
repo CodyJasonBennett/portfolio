@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { Link } from 'react-router-dom';
-import Anchor from '../components/Anchor';
-import { media, rgba, sectionPadding } from '../utils/StyleUtils';
+import Anchor from 'components/Anchor';
+import { media, rgba, sectionPadding } from 'utils/style';
 
 const Footer = () => (
   <FooterContainer role="contentinfo">
     <FooterDate>{`© 2018-${new Date().getFullYear()}`} </FooterDate>
-    <Anchor secondary as={Link} to="/#about">Cody Bennett</Anchor>
+    <Anchor secondary={1} as={Link} to="/#about">Cody Bennett</Anchor>
   </FooterContainer>
 );
 

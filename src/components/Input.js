@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components/macro';
-import TextArea from '../components/TextArea';
-import { rgba } from '../utils/StyleUtils';
-import { useId } from '../utils/Hooks';
+import TextArea from 'components/TextArea';
+import { rgba } from 'utils/style';
+import { useId } from 'utils/hooks';
 
 function Input(props) {
   const { id, label, hasValue, multiline, className, ...restProps } = props;
@@ -70,7 +70,6 @@ const InputElement = styled.input`
     ${AutoFillStyle}
   }
 
-  /* Needs to be a single selector to work in safari */
   &:-webkit-autofill {
     ${AutoFillStyle}
   }

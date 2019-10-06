@@ -1,44 +1,16 @@
-import React, { lazy, Suspense, useRef, useState } from 'react';
+import React, { lazy, Suspense, useRef, useState, useContext } from 'react';
 import styled, { css } from 'styled-components/macro';
 import { NavLink, Link } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
-import Monogram from '../components/Monogram';
-import Icon from '../components/Icon';
-import NavToggle from '../components/NavToggle';
-import { media, rgba } from '../utils/StyleUtils';
-import { useWindowSize } from '../utils/Hooks';
+import Monogram from 'components/Monogram';
+import Icon from 'components/Icon';
+import NavToggle from 'components/NavToggle';
+import { media, rgba } from 'utils/style';
+import { useWindowSize } from 'utils/hooks';
+import { AppContext } from 'app';
+import { navLinks, socialLinks } from 'data/nav';
 
-const ThemeToggle = lazy(() => import('../components/ThemeToggle'));
-
-const navLinks = [
-  {
-    label: 'Work',
-    pathname: '/',
-    hash: '#work',
-  },
-  {
-    label: 'About',
-    pathname: '/',
-    hash: '#about'
-  },
-  {
-    label: 'Contact',
-    pathname: '/contact',
-  },
-];
-
-const socialLinks = [
-  {
-    label: 'Codepen',
-    url: 'https://codepen.io/cbenn',
-    icon: 'codepen',
-  },
-  {
-    label: 'Github',
-    url: 'https://github.com/CodyJasonBennett',
-    icon: 'github',
-  },
-];
+const ThemeToggle = lazy(() => import('components/ThemeToggle'));
 
 const HeaderIcons = () => (
   <HeaderNavIcons>
@@ -54,7 +26,8 @@ const HeaderIcons = () => (
 );
 
 function Header(props) {
-  const { menuOpen, location, toggleMenu, currentTheme, toggleTheme } = props;
+  const { menuOpen, dispatch } = useContext(AppContext);
+  const { location } = props;
   const [hashKey, setHashKey] = useState();
   const windowSize = useWindowSize();
   const headerRef = useRef();
@@ -66,7 +39,7 @@ function Header(props) {
 
   const handleMobileNavClick = () => {
     handleNavClick();
-    if (menuOpen) toggleMenu();
+    if (menuOpen) dispatch({ type: 'toggleMenu' });
   };
 
   const isMatch = ({ match, hash = '' }) => {
@@ -83,13 +56,13 @@ function Header(props) {
       >
         <Monogram highlight />
       </HeaderLogo>
-      <NavToggle onClick={toggleMenu} menuOpen={menuOpen} />
+      <NavToggle onClick={() => dispatch({ type: 'toggleMenu' })} menuOpen={menuOpen} />
       <HeaderNav role="navigation">
         <HeaderNavList>
           {navLinks.map(({ label, pathname, hash }) => (
             <HeaderNavLink
               exact
-              isActive={(match) => isMatch({ match, hash })}
+              isActive={match => isMatch({ match, hash })}
               onClick={handleNavClick}
               key={label}
               to={{ pathname, hash, state: hashKey }}
@@ -122,14 +95,14 @@ function Header(props) {
             ))}
             <HeaderIcons />
             <Suspense fallback={<React.Fragment />}>
-              <ThemeToggle isMobile themeId={currentTheme.id} toggleTheme={toggleTheme} />
+              <ThemeToggle isMobile />
             </Suspense>
           </HeaderMobileNav>
         )}
       </Transition>
       {!isMobile &&
         <Suspense fallback={<React.Fragment />}>
-          <ThemeToggle themeId={currentTheme.id} toggleTheme={toggleTheme} />
+          <ThemeToggle />
         </Suspense>
       }
     </HeaderWrapper>
@@ -269,12 +242,12 @@ const HeaderNavIcon = styled(Icon)`
   fill: ${props => rgba(props.theme.colorText, 0.6)};
   transition: fill 0.4s ease;
 
-  ${HeaderNavIconLink}:hover &,
-  ${HeaderNavIconLink}:focus &,
-  ${HeaderNavIconLink}:active &,
-  ${HeaderNavContactLink}:hover &,
-  ${HeaderNavContactLink}:focus &,
-  ${HeaderNavContactLink}:active & {
+  ${/* sc-selector */HeaderNavIconLink}:hover &,
+  ${/* sc-selector */HeaderNavIconLink}:focus &,
+  ${/* sc-selector */HeaderNavIconLink}:active &,
+  ${/* sc-selector */HeaderNavContactLink}:hover &,
+  ${/* sc-selector */HeaderNavContactLink}:focus &,
+  ${/* sc-selector */HeaderNavContactLink}:active & {
     fill: ${props => props.theme.colorAccent};
   }
 `;

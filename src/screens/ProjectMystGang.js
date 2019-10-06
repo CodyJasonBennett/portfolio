@@ -1,36 +1,36 @@
 import React, { useMemo, lazy, Suspense } from 'react';
 import styled from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
-import ProgressiveImage from '../components/ProgressiveImage';
-import { useScrollToTop } from '../utils/Hooks';
-import { RouterButton } from '../components/Button';
-import Footer from '../components/Footer';
+import ProgressiveImage from 'components/ProgressiveImage';
+import { useScrollToTop } from 'utils/hooks';
+import { RouterButton } from 'components/Button';
+import Footer from 'components/Footer';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
   ProjectHeader, ProjectSectionHeading, ProjectSectionText, ProjectTextRow,
-  Video, ProjectSectionColumns, SidebarImages, SidebarImage
-} from '../components/Project';
-import { media } from '../utils/StyleUtils';
-import Render from '../assets/MystGang/MystGang.mp4'
-import RenderPlaceholder from '../assets/MystGang/MystGangPlaceholder.png';
-import Animation from '../assets/MystGang/mystGangAnimation.mp4';
-import AnimationPlaceholder from '../assets/MystGang/mystGangAnimationPlaceholder.png';
-import Branding from '../assets/MystGang/branding.webp';
-import BrandingPlaceholder from '../assets/MystGang/brandingPlaceholder.png';
-import Loader from '../assets/MystGang/Loader.webp';
-import LoaderPlaceholder from '../assets/MystGang/LoaderPlaceholder.png';
-import Home from '../assets/MystGang/Home.webp';
-import Menu from '../assets/MystGang/Menu.webp';
-import Work from '../assets/MystGang/Work.webp';
-import About1 from '../assets/MystGang/About1.webp';
-import About2 from '../assets/MystGang/About2.webp';
-import About3 from '../assets/MystGang/About3.webp';
-import Contact from '../assets/MystGang/Contact.webp';
-import NextProject from '../assets/ARMTG/armtg-project-large.png';
-import MystLogo from '../assets/MystGang/logo.png';
-import MystLogoPlaceholder from '../assets/MystGang/logoPlaceholder.png';
+  ProjectSectionColumns, SidebarImages, SidebarImage
+} from 'components/Project';
+import { media } from 'utils/style';
+import Render from 'assets/MystGang/MystGang.mp4'
+import RenderPlaceholder from 'assets/MystGang/MystGangPlaceholder.png';
+import Animation from 'assets/MystGang/mystGangAnimation.mp4';
+import AnimationPlaceholder from 'assets/MystGang/mystGangAnimationPlaceholder.png';
+import Branding from 'assets/MystGang/branding.webp';
+import BrandingPlaceholder from 'assets/MystGang/brandingPlaceholder.png';
+import Loader from 'assets/MystGang/Loader.webp';
+import LoaderPlaceholder from 'assets/MystGang/LoaderPlaceholder.png';
+import Home from 'assets/MystGang/Home.webp';
+import Menu from 'assets/MystGang/Menu.webp';
+import Work from 'assets/MystGang/Work.webp';
+import About1 from 'assets/MystGang/About1.webp';
+import About2 from 'assets/MystGang/About2.webp';
+import About3 from 'assets/MystGang/About3.webp';
+import Contact from 'assets/MystGang/Contact.webp';
+import NextProject from 'assets/ARMTG/armtg-project-large.png';
+import MystLogo from 'assets/MystGang/logo.png';
+import MystLogoPlaceholder from 'assets/MystGang/logoPlaceholder.png';
 
-const DisplacementSlider = lazy(() => import('../components/DisplacementSlider'));
+const DisplacementSlider = lazy(() => import('components/DisplacementSlider'));
 
 const title = 'MystGang 2019';
 const description = 'A responsive 3D website for the gaming content creator known as MystGang, featuring a 3D carousel to show off their work. The site is sped up with Ajax and animated with Tweenmax and Greensock, rendering a 3D landscape in WebGL with Three.js. This included the design of the monogram in the center of the screen.';
@@ -64,8 +64,9 @@ function MystGang() {
         <ProjectSection>
           <ProjectSectionContent>
             <ProjectImage>
-              <Video
-                src={Render}
+              <ProgressiveImage
+                srcSet={Render}
+                videoSrc={Render}
                 placeholder={RenderPlaceholder}
                 reveal
               />
@@ -75,7 +76,8 @@ function MystGang() {
         <ProjectSection light>
           <ProjectSectionColumns>
             <ProgressiveImage
-              srcSet={`${Branding}`}
+              src={Branding}
+              srcSet={Branding}
               placeholder={BrandingPlaceholder}
               alt=""
               sizes={`(max-width: ${media.mobile}) 100vw, (max-width: ${media.tablet}) 100vw, 50vw`}
@@ -90,8 +92,9 @@ function MystGang() {
         </ProjectSection>
         <ProjectSection>
           <ProjectSectionContent>
-            <Video
-              src={Animation}
+            <ProgressiveImage
+              srcSet={Animation}
+              videoSrc={Animation}
               placeholder={AnimationPlaceholder}
             />
           </ProjectSectionContent>
@@ -100,7 +103,8 @@ function MystGang() {
           <ProjectSectionContent>
             <LogoContainer>
             <ProgressiveImage
-              srcSet={`${MystLogo}`}
+              src={MystLogo}
+              srcSet={MystLogo}
               placeholder={MystLogoPlaceholder}
               alt=""
             />
@@ -176,7 +180,7 @@ function MystGang() {
           <ProjectSectionColumns>
             <SidebarImages>
               <SidebarImage
-                srcSet={`${NextProject}`}
+                srcSet={NextProject}
                 alt=""
                 reveal
                 sizes={`(max-width: ${media.mobile}) 500px, (max-width: ${media.tablet}) 800px, 1000px`}

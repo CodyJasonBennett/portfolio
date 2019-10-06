@@ -1,11 +1,11 @@
 <script>
-  var titleTag = document.createElement('title');
+  const titleTag = document.createElement('title');
   titleTag.text = 'Cody Bennett | Storybook';
-  var firstMeta = document.head.querySelector('meta[charset="utf-8"]');
+  const firstMeta = document.head.querySelector('meta[charset="utf-8"]');
   document.head.insertBefore(titleTag, firstMeta.nextSibling);
 
-  var callback = function(mutationsList, observer) {
-    for(var mutation of mutationsList) {
+  const callback = function(mutationsList, observer) {
+    for(let mutation of mutationsList) {
       if (mutation.type == 'childList') {
         observer.disconnect();
         titleTag.text = 'Cody Bennett | Storybook';
@@ -13,7 +13,7 @@
     }
   };
 
-  var observer = new MutationObserver(callback);
+  const observer = new MutationObserver(callback);
   observer.observe(titleTag, { childList: true });
 </script>
 
@@ -31,6 +31,7 @@
 <link rel="manifest" href="https://codyb.co/manifest.json">
 <link rel="shortcut icon" href="https://codyb.co/favicon.png">
 <link rel="apple-touch-icon" href="https://codyb.co/icon-256.png">
+<link type="text/plain" rel="author" href="https://codyb.co/humans.txt">
 
 <meta property="og:image" content="https://codyb.co/social-image.png">
 <meta property="og:image:type" content="image/png">

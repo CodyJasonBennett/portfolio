@@ -1,21 +1,20 @@
-import React, { Suspense, useMemo, useContext, useEffect, useState } from 'react';
-import styled, { css, keyframes } from 'styled-components/macro';
+import React, { Suspense, lazy, useMemo, useContext, useEffect, useState } from 'react';
+import styled, { css, keyframes, ThemeContext } from 'styled-components/macro';
 import { TransitionGroup, Transition } from 'react-transition-group';
-import { media, AnimFade, rgba, sectionPadding } from '../utils/StyleUtils';
-import DecoderText from '../components/DecoderText';
-import Svg from '../components/Svg';
-import { AppContext } from '../app/App';
-import DisplacementSphere from '../components/DisplacementSphere';
-import { useInterval, usePrevious, useWindowSize } from '../utils/Hooks';
+import { media, AnimFade, rgba, sectionPadding } from 'utils/style';
+import DecoderText from 'components/DecoderText';
+import Svg from 'components/Svg';
+import { useInterval, usePrevious, useWindowSize } from 'utils/hooks';
 
+const DisplacementSphere = lazy(() => import('components/DisplacementSphere'));
 const prerender = navigator.userAgent === 'ReactSnap';
 
 function Intro(props) {
-  const { currentTheme } = useContext(AppContext);
+  const theme = useContext(ThemeContext);
   const { id, sectionRef, disciplines, scrollIndicatorHidden } = props;
   const [disciplineIndex, setDisciplineIndex] = useState(0);
   const windowSize = useWindowSize();
-  const prevTheme = usePrevious(currentTheme);
+  const prevTheme = usePrevious(theme);
   const introLabel = useMemo(() => [disciplines.slice(0, -1).join(', '), disciplines.slice(-1)[0]].join(', and '), [disciplines]);
   const currentDisciplines = useMemo(() => disciplines.filter((item, index) => index === disciplineIndex), [disciplineIndex, disciplines]);
   const titleId = `${id}-title`;
@@ -23,13 +22,13 @@ function Intro(props) {
   useInterval(() => {
     const index = (disciplineIndex + 1) % disciplines.length;
     setDisciplineIndex(index);
-  }, 5000, currentTheme.id);
+  }, 5000, theme.id);
 
   useEffect(() => {
-    if (prevTheme && prevTheme.id !== currentTheme.id) {
+    if (prevTheme && prevTheme.id !== theme.id) {
       setDisciplineIndex(0);
     }
-  }, [currentTheme.id, prevTheme]);
+  }, [theme.id, prevTheme]);
 
   return (
     <IntroContent
@@ -39,7 +38,7 @@ function Intro(props) {
       tabIndex={-1}
     >
       <Transition
-        key={currentTheme.id}
+        key={theme.id}
         appear={!prerender}
         in={!prerender}
         timeout={3000}
@@ -47,37 +46,39 @@ function Intro(props) {
       >
         {status => (
           <React.Fragment>
-            <Suspense fallback={<React.Fragment />}>
-              <DisplacementSphere />
-              <IntroText>
-                <IntroName status={status} id={titleId}>
-                  <DecoderText text="Cody Bennett" start={!prerender} offset={120} />
-                </IntroName>
-                <IntroTitle>
-                  <IntroTitleLabel>{`Designer + ${introLabel}`}</IntroTitleLabel>
-                  <IntroTitleRow aria-hidden prerender={prerender}>
-                    <IntroTitleWord status={status} delay="0.2s">Designer</IntroTitleWord>
-                    <IntroTitleLine status={status} />
-                  </IntroTitleRow>
-                  <TransitionGroup component={IntroTitleRow} prerender={prerender}>
-                    {currentDisciplines.map((item, index) => (
-                      <Transition
-                        appear
-                        timeout={{ enter: 3000, exit: 2000 }}
-                        key={`${item}_${index}`}
-                        onEnter={node => node && node.offsetHeight}
-                      >
-                        {status => (
-                          <IntroTitleWord plus aria-hidden delay="0.5s" status={status}>
-                            {item}
-                          </IntroTitleWord>
-                        )}
-                      </Transition>
-                    ))}
-                  </TransitionGroup>
-                </IntroTitle>
-              </IntroText>
-            </Suspense>
+            {!prerender &&
+              <Suspense fallback={<React.Fragment />}>
+                <DisplacementSphere />
+              </Suspense>
+            }
+            <IntroText>
+              <IntroName status={status} id={titleId}>
+                <DecoderText text="Cody Bennett" start={!prerender} offset={120} />
+              </IntroName>
+              <IntroTitle>
+                <IntroTitleLabel>{`Designer + ${introLabel}`}</IntroTitleLabel>
+                <IntroTitleRow aria-hidden prerender={prerender}>
+                  <IntroTitleWord status={status} delay="0.2s">Designer</IntroTitleWord>
+                  <IntroTitleLine status={status} />
+                </IntroTitleRow>
+                <TransitionGroup component={IntroTitleRow} prerender={prerender}>
+                  {currentDisciplines.map((item, index) => (
+                    <Transition
+                      appear
+                      timeout={{ enter: 3000, exit: 2000 }}
+                      key={`${item}_${index}`}
+                      onEnter={node => node && node.offsetHeight}
+                    >
+                      {status => (
+                        <IntroTitleWord plus aria-hidden delay="0.5s" status={status}>
+                          {item}
+                        </IntroTitleWord>
+                      )}
+                    </Transition>
+                  ))}
+                </TransitionGroup>
+              </IntroTitle>
+            </IntroText>
             {windowSize.width > media.numTablet &&
               <MemoizedScrollIndicator
                 isHidden={scrollIndicatorHidden}

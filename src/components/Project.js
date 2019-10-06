@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
-import { media, AnimFade, rgba, sectionPadding } from '../utils/StyleUtils';
-import ProgressiveImage from '../components/ProgressiveImage';
-import ProgressiveVideo from '../components/ProgressiveVideo';
-import { LinkButton } from '../components/Button';
-import { usePrefersReducedMotion } from '../utils/Hooks';
+import { media, AnimFade, rgba, sectionPadding } from 'utils/style';
+import ProgressiveImage from 'components/ProgressiveImage';
+import { LinkButton } from 'components/Button';
+import { usePrefersReducedMotion } from 'utils/hooks';
 
 const initDelay = 300;
-export const Video = ProgressiveVideo;
 const prerender = navigator.userAgent === 'ReactSnap';
 
 export function ProjectBackground(props) {
@@ -34,19 +32,6 @@ export function ProjectBackground(props) {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [prefersReducedMotion]);
-
-  if(props.video) return (
-      <ProjectBackgroundVideo
-        autoPlay
-        muted
-        loop
-        playsInline
-        offset={offset}
-        poster={props.placeholder}
-      >
-        <source src={props.src} type="video/mp4" />
-      </ProjectBackgroundVideo>
-    );
 
   return (
     <ProjectBackgroundImage offsetValue={offset} {...props} />
@@ -165,66 +150,11 @@ export const ProjectBackgroundImage = styled(ProgressiveImage).attrs(props => ({
     animation: ${AnimFade} 2s ease ${initDelay}ms forwards;
   `}
 
-  img {
+  img, video {
     object-fit: cover;
     width: 100%;
     height: 100%;
   }
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg,
-      ${props => rgba(props.theme.colorBackground, props.opacity)} 0%,
-      ${props => props.theme.colorBackground} 100%
-    );
-  }
-`;
-
-export const ProjectBackgroundVideo = styled.video.attrs(props => ({
-  role: 'presentation',
-  opacity: props.opacity ? props.opacity : 0.7,
-  style: {
-    transform: `translate3d(0, ${props.offsetValue}px, 0)`,
-  },
-}))`
-  z-index: 0;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 800px;
-  overflow: hidden;
-  object-fit: cover;
-  width: 100%;
-  transition-property: filter;
-  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
-  transition-duration: 0.4s;
-  outline: 0;
-  border: none;
-  -moz-outline-style: none;
-
-  @media (prefers-reduced-motion: reduce) {
-    opacity: 1;
-    transition: none;
-  }
-
-  ${props => props.entered && css`
-    animation: ${AnimFade} 2s ease ${initDelay}ms forwards;
-  `}
-
-  ${props => props.theme.id === 'light' && css`
-    -webkit-filter:invert(100%);
-    filter:progid:DXImageTransform.Microsoft.BasicImage(invert='1');
-  `}
 
   &::after {
     content: '';

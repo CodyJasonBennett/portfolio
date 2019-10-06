@@ -1,24 +1,25 @@
 import React, { useState, useEffect, useRef, useMemo, useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { AppContext } from '../app/App';
-import Intro from '../screens/Intro';
-import ProjectItem from '../screens/ProjectItem';
-import Profile from '../screens/Profile';
-import Footer from '../components/Footer';
-import { usePrefersReducedMotion } from '../utils/Hooks';
-import DTTProject from '../assets/DTT/dtt-project.png';
-import DTTProjectLarge from '../assets/DTT/dtt-project-large.png';
-import DTTProjectPlaceholder from '../assets/DTT/dtt-project-placeholder.png';
-import MystGangProject from '../assets/MystGang/mystgang-project.png';
-import MystGangProjectLarge from '../assets/MystGang/mystgang-project-large.png';
-import MystGangProjectPlaceholder from '../assets/MystGang/mystgang-project-placeholder.png';
-import ARMTGProject from '../assets/ARMTG/armtg-project.png';
-import ARMTGProjectLarge from '../assets/ARMTG/armtg-project-large.png';
-import ARMTGProjectPlaceholder from '../assets/ARMTG/armtg-project-placeholder.png';
+import { TransitionContext } from 'app';
+import Intro from 'screens/Intro';
+import ProjectItem from 'screens/ProjectItem';
+import Profile from 'screens/Profile';
+import Footer from 'components/Footer';
+import DTTProject from 'assets/DTT/dtt-project.png';
+import DTTProjectLarge from 'assets/DTT/dtt-project-large.png';
+import DTTProjectPlaceholder from 'assets/DTT/dtt-project-placeholder.png';
+import MystGangProject from 'assets/MystGang/mystgang-project.png';
+import MystGangProjectLarge from 'assets/MystGang/mystgang-project-large.png';
+import MystGangProjectPlaceholder from 'assets/MystGang/mystgang-project-placeholder.png';
+import ARMTGProject from 'assets/ARMTG/armtg-project.png';
+import ARMTGProjectLarge from 'assets/ARMTG/armtg-project-large.png';
+import ARMTGProjectPlaceholder from 'assets/ARMTG/armtg-project-placeholder.png';
+import { usePrefersReducedMotion } from 'utils/hooks';
+
 const disciplines = ['Developer', 'Creator', 'Animator', 'Student'];
 
 export default function Home(props) {
-  const { status } = useContext(AppContext);
+  const { status } = useContext(TransitionContext);
   const { location } = props;
   const { hash, state } = location;
   const initHash = useRef(true);
@@ -64,8 +65,11 @@ export default function Home(props) {
   useEffect(() => {
     const hasEntered = status === 'entered';
     const supportsNativeSmoothScroll = 'scrollBehavior' in document.documentElement.style;
+    let scrollObserver;
+    let scrollTimeout;
 
     const handleHashchange = (hash, scroll) => {
+      clearTimeout(scrollTimeout);
       const hashSections = [intro, projectOne, projectTwo, projectThree, about];
       const hashString = hash.replace('#', '');
       const element = hashSections.filter(item => item.current.id === hashString)[0];
@@ -73,10 +77,12 @@ export default function Home(props) {
       const behavior = scroll && !prefersReducedMotion ? 'smooth' : 'instant';
       const top = element.current.offsetTop;
 
-      const scrollObserver = new IntersectionObserver(entries => {
+      scrollObserver = new IntersectionObserver(entries => {
         const [entry] = entries;
         if (entry.isIntersecting) {
-          element.current.focus();
+          scrollTimeout = setTimeout(() => {
+            element.current.focus();
+          }, prefersReducedMotion ? 0 : 400);
           scrollObserver.unobserve(entry.target);
         }
       }, { rootMargin: '-20% 0px -20% 0px' });
@@ -103,6 +109,13 @@ export default function Home(props) {
     } else if (hasEntered) {
       handleHashchange(hash, true);
     }
+
+    return () => {
+      clearTimeout(scrollTimeout);
+      if (scrollObserver) {
+        scrollObserver.disconnect();
+      }
+    };
   }, [hash, state, prefersReducedMotion, status]);
 
   return (

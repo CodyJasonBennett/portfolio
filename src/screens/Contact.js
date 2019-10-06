@@ -2,13 +2,13 @@ import React, { useState, useContext, useCallback } from 'react';
 import styled, { css } from 'styled-components/macro';
 import { TransitionGroup, Transition } from 'react-transition-group';
 import { Helmet } from 'react-helmet-async';
-import { AppContext } from '../app/App';
-import Input from '../components/Input';
-import DecoderText from '../components/DecoderText';
-import Divider from '../components/Divider';
-import { Button, RouterButton } from '../components/Button';
-import { media, AnimFade, sectionPadding } from '../utils/StyleUtils';
-import { useScrollToTop, useFormInput } from '../utils/Hooks';
+import { TransitionContext } from 'app';
+import Input from 'components/Input';
+import DecoderText from 'components/DecoderText';
+import Divider from 'components/Divider';
+import { Button, RouterButton } from 'components/Button';
+import { media, AnimFade, sectionPadding } from 'utils/style';
+import { useScrollToTop, useFormInput } from 'utils/hooks';
 
 const prerender = navigator.userAgent === 'ReactSnap';
 const initDelay = 300;
@@ -27,7 +27,7 @@ function getStatusError(status) {
 }
 
 function Contact() {
-  const { status } = useContext(AppContext);
+  const { status } = useContext(TransitionContext);
   const email = useFormInput('');
   const message = useFormInput('');
   const [sending, setSending] = useState(false);
@@ -67,7 +67,7 @@ function Contact() {
   return (
     <ContactWrapper status={status}>
       <Helmet
-        title="Contact me"
+        title="Contact"
         meta={[{
           name: 'description',
           content: 'Send me a message if you’re interested in discussing a project or if you just want to say hi',
@@ -144,7 +144,7 @@ function Contact() {
                   Message Sent
                 </ContactCompleteTitle>
                 <ContactCompleteText status={status} delay={200}>
-                  I’ll get back to you within a couple days, sit tight
+                  I’ll get back to you within a couple days
                 </ContactCompleteText>
                 <ContactCompleteButton
                   secondary

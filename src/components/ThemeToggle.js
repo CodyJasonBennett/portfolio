@@ -1,13 +1,16 @@
-import React, { useEffect, useRef } from 'react';
-import styled, { css } from 'styled-components/macro';
+import React, { useEffect, useRef, useContext } from 'react';
+import styled, { css, ThemeContext } from 'styled-components/macro';
 import lottie from 'lottie-web/build/player/lottie_light.min';
-import { Button } from '../components/Button';
-import themeIconData from '../data/themeIconData.json';
-import { media } from '../utils/StyleUtils';
-import { usePrefersReducedMotion } from '../utils/Hooks';
+import { Button } from 'components/Button';
+import themeIconData from 'data/themeIcon.json';
+import { media } from 'utils/style';
+import { usePrefersReducedMotion } from 'utils/hooks';
+import { AppContext } from 'app';
 
-export default function ThemeToggle({ themeId, toggleTheme, isMobile, ...rest }) {
-  const initThemeId = useRef(themeId);
+export default function ThemeToggle({ isMobile, ...rest }) {
+  const theme = useContext(ThemeContext);
+  const { dispatch } = useContext(AppContext);
+  const initThemeId = useRef(theme.id);
   const lottieContainerRef = useRef();
   const lottieAnimRef = useRef();
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -23,24 +26,32 @@ export default function ThemeToggle({ themeId, toggleTheme, isMobile, ...rest })
 
     const duration = lottieAnimRef.current.totalFrames - 1;
     lottieAnimRef.current.goToAndStop(initThemeId.current === 'dark' ? duration : 0, true);
+
+    return () => {
+      lottieAnimRef.current.destroy();
+    };
   }, []);
 
   useEffect(() => {
-    lottieAnimRef.current.setDirection(themeId === 'dark' ? 1 : -1);
+    lottieAnimRef.current.setDirection(theme.id === 'dark' ? 1 : -1);
 
     if (prefersReducedMotion) {
       const duration = lottieAnimRef.current.totalFrames - 1;
-      lottieAnimRef.current.goToAndStop(themeId === 'dark' ? duration : 0, true);
+      lottieAnimRef.current.goToAndStop(theme.id === 'dark' ? duration : 0, true);
     } else {
       lottieAnimRef.current.play();
     }
-  }, [themeId, prefersReducedMotion]);
+  }, [prefersReducedMotion, theme.id]);
+
+  const handleClick = () => {
+    dispatch({ type: 'toggleTheme' });
+  };
 
   return (
     <ThemeToggleButton
       iconOnly
       aria-label="Toggle theme"
-      onClick={toggleTheme}
+      onClick={handleClick}
       isMobile={isMobile}
       {...rest}
     >
@@ -96,6 +107,6 @@ const ThemeToggleButton = styled(Button)`
   }
 `;
 
-const ThemeToggleWrapper = styled.div`
+const ThemeToggleWrapper = styled.span`
   display: flex;
 `;

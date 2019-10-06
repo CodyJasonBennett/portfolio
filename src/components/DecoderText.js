@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components/macro';
-import { usePrefersReducedMotion } from '../utils/Hooks';
+import { usePrefersReducedMotion } from 'utils/hooks';
 
 const chars = [
   'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd',
@@ -12,7 +12,7 @@ const chars = [
   'Y', 'y', 'Z', 'z',
 ];
 
-const japaneseFonts = [
+const fonts = [
   'ヒラギノ角ゴ Pro W3',
   'Hiragino Kaku Gothic Pro',
   'Hiragino Sans',
@@ -61,6 +61,7 @@ function DecoderText(props) {
         type: 'actual',
         value: content.current[index],
       }));
+      setStarted(true);
     }
 
     return function cleanUp() {
@@ -136,7 +137,7 @@ const DecoderWrapper = styled.span`
   .decoder-text__code {
     opacity: 0.8;
     font-weight: 400;
-    font-family: ${japaneseFonts.join(', ')};
+    font-family: ${fonts.join(', ')};
     line-height: 0;
   }
 `;

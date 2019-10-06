@@ -1,15 +1,15 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import { Transition } from 'react-transition-group';
-import Anchor from '../components/Anchor';
-import { RouterButton } from '../components/Button';
-import DecoderText from '../components/DecoderText';
-import Divider from '../components/Divider';
-import ProgressiveImage from '../components/ProgressiveImage';
-import ProfileImg from '../assets/profile.jpg';
-import ProfileImgLarge from '../assets/profile-large.jpg';
-import ProfileImgPlaceholder from '../assets/profile-placeholder.jpg';
-import { media, sectionPadding } from '../utils/StyleUtils';
+import Anchor from 'components/Anchor';
+import { RouterButton } from 'components/Button';
+import DecoderText from 'components/DecoderText';
+import Divider from 'components/Divider';
+import ProgressiveImage from 'components/ProgressiveImage';
+import ProfileImg from 'assets/profile.jpg';
+import ProfileImgLarge from 'assets/profile-large.jpg';
+import ProfileImgPlaceholder from 'assets/profile-placeholder.jpg';
+import { media, sectionPadding } from 'utils/style';
 
 const ProfileText = ({ status, titleId }) => (
   <React.Fragment>
@@ -75,7 +75,7 @@ function Profile(props) {
                 placeholder={ProfileImgPlaceholder}
                 srcSet={`${ProfileImg} 480w, ${ProfileImgLarge} 960w`}
                 sizes={`(max-width: ${media.mobile}) 100vw, 480px`}
-                alt="Me at the Torii (gate) on Miyajima, an island off the coast of Hiroshima in Japan"
+                alt=""
               />
             </ProfileColumn>
           </ProfileContent>

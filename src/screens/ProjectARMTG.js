@@ -1,14 +1,15 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useScrollToTop } from '../utils/Hooks';
-import Footer from '../components/Footer';
-import { RouterButton } from '../components/Button';
+import { useScrollToTop } from 'utils/hooks';
+import Footer from 'components/Footer';
+import { RouterButton } from 'components/Button';
+import ProgressiveImage from 'components/ProgressiveImage';
 import {
   ProjectContainer, ProjectSection, ProjectSectionContent, ProjectImage,
-  ProjectHeader, ProjectTextRow, ProjectSectionHeading, Video
-} from '../components/Project';
-import Render from '../assets/ARMTG/ARMTGWeb.mp4';
-import RenderPlaceholder from '../assets/ARMTG/ARMTGWebPlaceHolder.png';
+  ProjectHeader, ProjectTextRow, ProjectSectionHeading
+} from 'components/Project';
+import Render from 'assets/ARMTG/ARMTGWeb.mp4';
+import RenderPlaceholder from 'assets/ARMTG/ARMTGWebPlaceHolder.png';
 
 const prerender = navigator.userAgent === 'ReactSnap';
 const title = 'ARMTG';
@@ -42,8 +43,9 @@ function ArMTG() {
         <ProjectSection>
           <ProjectSectionContent>
             <ProjectImage entered={!prerender}>
-              <Video
-                src={Render}
+              <ProgressiveImage
+                srcSet={Render}
+                videoSrc={Render}
                 placeholder={RenderPlaceholder}
                 reveal
               />

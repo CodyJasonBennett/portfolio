@@ -1,20 +1,19 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import { Transition } from 'react-transition-group';
-import { media, rgba, sectionPadding } from '../utils/StyleUtils';
-import { RouterButton, LinkButton } from '../components/Button';
-import ProgressiveImage from '../components/ProgressiveImage';
-import Divider from '../components/Divider';
-import { useWindowSize } from '../utils/Hooks';
-import Macbook from '../assets/macbook-large.webp';
-import phone from '../assets/phone.png';
-import phoneLarge from '../assets/phone-large.png';
-import phonePlaceholder from '../assets/phone-placeholder.png';
+import { media, rgba, sectionPadding } from 'utils/style';
+import { RouterButton, LinkButton } from 'components/Button';
+import ProgressiveImage from 'components/ProgressiveImage';
+import Divider from 'components/Divider';
+import { useWindowSize } from 'utils/hooks';
+import phone from 'assets/phone.png';
+import phoneLarge from 'assets/phone-large.png';
+import phonePlaceholder from 'assets/phone-placeholder.png';
 
 function ProjectItem(props) {
   const {
     id, visible, sectionRef, index, title, description, imageSrc, imageAlt, imageType,
-    imagePlaceholder, buttonText, buttonLink, buttonTo, alternate, video, still, ...rest
+    imagePlaceholder, buttonText, buttonLink, buttonTo, alternate, ...rest
   } = props;
 
   const windowSize = useWindowSize();
@@ -62,28 +61,13 @@ function ProjectItem(props) {
     <ProjectItemPreview>
       {imageType === 'laptop' &&
         <ProjectItemPreviewContentLaptop>
-          {!video &&
-            <ProjectItemImageLaptop
-              status={status}
-              srcSet={imageSrc[0]}
-              alt={imageAlt[0]}
-              placeholder={imagePlaceholder[0]}
-              sizes={`(max-width: ${media.mobile}) 300px,(max-width: ${media.tablet}) 420px,(max-width: ${media.desktop}) 860px, 900px`}
-              still={still}
-            />
-          }
-          {video &&
-            <ProjectItemVideoLaptop
-              autoPlay
-              muted
-              loop
-              playsInline
-              status={status}
-              poster={imagePlaceholder[0]}
-            >
-              <source src={imageSrc[0]} type="video/mp4" />
-            </ProjectItemVideoLaptop>
-          }
+          <ProjectItemImageLaptop
+            status={status}
+            srcSet={imageSrc[0]}
+            alt={imageAlt[0]}
+            placeholder={imagePlaceholder[0]}
+            sizes={`(max-width: ${media.mobile}) 300px,(max-width: ${media.tablet}) 420px,(max-width: ${media.desktop}) 860px, 900px`}
+          />
         </ProjectItemPreviewContentLaptop>
       }
       {imageType === 'phone' &&
@@ -397,58 +381,6 @@ const ProjectItemImageLaptop = styled(ProgressiveImage)`
     height: 206px;
     margin-bottom: 60px;
   }
-
-  ${props => props.still && css`
-    padding: 5.5% 10.9% 7.3% 11.4%;
-    background-image: url(${Macbook});
-    background-size: cover;
-  `}
-`;
-
-const ProjectItemVideoLaptop = styled.video`
-  width: 862px;
-  height: 531px;
-  right: -140px;
-  padding: 5.5% 10.9% 7.3% 11.4%;
-  transition-property: transform, opacity;
-  transition-duration: 1s;
-  transition-delay: 0.4s;
-  transition-timing-function: ${props => props.theme.curveFastoutSlowin};
-  transform: translate3d(40px, 0, 0);
-  opacity: 0;
-  position: relative;
-  object-fit: cover;
-  outline: 0;
-  border: none;
-  -moz-outline-style: none;
-  ${props => props.status === 'entered' && css`
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  `}
-  ${props => props.theme.id === 'light' && css`
-    z-index: 1;
-  `}
-  @media(min-width: 1440px) {
-    width: 880px;
-    height: 542px;
-  }
-  @media(max-width: 1245px) {
-    width: 761px;
-    height: 491px;
-  }
-  @media (max-width: ${media.tablet}) {
-    width: 420px;
-    height: 258px;
-    margin-bottom: 120px;
-    right: 0;
-  }
-  @media (max-width: ${media.mobile}) {
-    width: 336px;
-    height: 206px;
-    margin-bottom: 60px;
-  }
-  background-image: url(${Macbook});
-  background-size: cover;
 `;
 
 const ProjectItemPhone = styled.div`

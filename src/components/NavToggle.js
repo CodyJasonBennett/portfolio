@@ -1,15 +1,14 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import Icon from './Icon';
-import { Button } from '../components/Button';
-import { media } from '../utils/StyleUtils';
+import { Button } from 'components/Button';
+import { media } from 'utils/style';
 
-const NavToggle = ({ onClick, menuOpen, ...rest }) => (
+const NavToggle = ({ menuOpen, ...rest }) => (
   <NavToggleButton
     iconOnly
     aria-label="Menu"
     aria-expanded={menuOpen}
-    onClick={onClick}
     {...rest}
   >
     <NavToggleInner>
@@ -20,16 +19,18 @@ const NavToggle = ({ onClick, menuOpen, ...rest }) => (
 );
 
 const NavToggleButton = styled(Button)`
-  position: fixed;
-  top: ${props => props.theme.spacingOuter.mobile};
-  right: ${props => props.theme.spacingOuter.mobile};
-  width: 48px;
-  height: 48px;
-  z-index: 1024;
-  display: none;
+  && {
+    position: fixed;
+    top: ${props => props.theme.spacingOuter.mobile};
+    right: ${props => props.theme.spacingOuter.mobile};
+    width: 48px;
+    height: 48px;
+    z-index: 1024;
+    display: none;
 
-  @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
-    display: flex;
+    @media (max-width: ${media.mobile}), (max-height: ${media.mobile}) {
+      display: flex;
+    }
   }
 `;
 

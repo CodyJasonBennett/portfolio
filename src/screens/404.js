@@ -2,11 +2,11 @@ import React from 'react';
 import styled, { css, keyframes } from 'styled-components/macro';
 import { Transition } from 'react-transition-group';
 import { Helmet } from 'react-helmet-async';
-import { RouterButton } from '../components/Button';
-import DecoderText from '../components/DecoderText';
-import { media, rgba } from '../utils/StyleUtils';
-import Notfound from '../assets/notfound.mp4';
-import NotfoundPoster from '../assets/notfound.jpg';
+import { RouterButton } from 'components/Button';
+import DecoderText from 'components/DecoderText';
+import { media, rgba } from 'utils/style';
+import Notfound from 'assets/notfound.mp4';
+import NotfoundPoster from 'assets/notfound.jpg';
 
 function NotFound() {
   return (
@@ -347,7 +347,7 @@ const NotFoundTitle = styled.h1`
   transition-delay: 0.1s;
   transform: translate3d(0, 40px, 0);
   opacity: 0;
-  color: ${props => rgba(props.theme.colorText, 0.4)};
+  color: ${props => props.theme.colorTitle};
 
   @media (max-width: ${media.mobile}) {
     font-size: 64px;

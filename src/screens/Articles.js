@@ -1,16 +1,14 @@
-import React, { lazy, Suspense, Fragment } from 'react';
+import React, { Suspense, Fragment } from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
-import { useScrollToTop } from '../utils/Hooks';
-import { sectionPadding, media, rgba } from '../utils/StyleUtils';
-import posts from '../posts';
-import Post from './Post';
-import ProgressiveImage from '../components/ProgressiveImage';
+import { useScrollToTop } from 'utils/hooks';
+import { sectionPadding, media, rgba } from 'utils/style';
+import posts from 'posts';
+import Post from 'screens/Post';
+import ProgressiveImage from 'components/ProgressiveImage';
 
-const DisplacementSphere = lazy(() => import('../components/DisplacementSphere'));
-
-const PostListItem = ({
+function PostListItem({
   path,
   title,
   description,
@@ -19,28 +17,30 @@ const PostListItem = ({
   bannerPlaceholder,
   bannerAlt,
   date,
-}) => (
-  <PostListItemWrapper>
-    <PostContent to={`/blog${path}`}>
-      <PostImageWrapper>
-        <PostImage
-          srcSet={banner ? require(`../posts/assets/${banner}`) : undefined}
-          videoSrc={bannerVideo ? require(`../posts/assets/${bannerVideo}`) : undefined}
-          placeholder={require(`../posts/assets/${bannerPlaceholder}`)}
-          alt={bannerAlt}
-        />
-        <PostImageTag>TEST</PostImageTag>
-      </PostImageWrapper>
-      <PostText>
-        <PostDate>
-          {new Date(date).toLocaleDateString('default', { year: 'numeric', month: 'long' })}
-        </PostDate>
-        <PostTitle>{title}</PostTitle>
-        <PostDescription>{description}</PostDescription>
-      </PostText>
-    </PostContent>
-  </PostListItemWrapper>
-);
+}) {
+  return (
+    <PostListItemWrapper>
+      <PostContent to={`/articles${path}`}>
+        <PostImageWrapper>
+          <PostImage
+            srcSet={banner ? require(`posts/assets/${banner}`) : undefined}
+            videoSrc={bannerVideo ? require(`posts/assets/${bannerVideo}`) : undefined}
+            placeholder={require(`posts/assets/${bannerPlaceholder}`)}
+            alt={bannerAlt}
+          />
+          <PostImageTag>K256</PostImageTag>
+        </PostImageWrapper>
+        <PostText>
+          <PostDate>
+            {new Date(date).toLocaleDateString('default', { year: 'numeric', month: 'long' })}
+          </PostDate>
+          <PostTitle>{title}</PostTitle>
+          <PostDescription>{description}</PostDescription>
+        </PostText>
+      </PostContent>
+    </PostListItemWrapper>
+  );
+}
 
 function PostList() {
   useScrollToTop();
@@ -48,52 +48,56 @@ function PostList() {
   return (
     <PostListWrapper>
       <Helmet>
-        <title>{`Blog | Cody Bennett`}</title>
-        <meta name="description" content="A collection of technical design and development blog." />
+        <title>{`Articles | Cody Bennett`}</title>
+        <meta name="description" content="A collection of technical design and development articles." />
       </Helmet>
-      <DisplacementSphere />
       <PostListContent>
-        <PostListTitle>Blog</PostListTitle>
-        {posts.map(({ path, ...post }) =>
-          <PostListItem key={path} path={path} {...post} />
-        )}
+        <PostTitleWrapper>
+          <PostListTitle>Articles</PostListTitle>
+        </PostTitleWrapper>
+        <PostListColumn>
+          {posts.map(({ path, ...post }) =>
+            <PostListItem key={path} path={path} {...post} />
+          )}
+        </PostListColumn>
       </PostListContent>
     </PostListWrapper>
   );
 }
 
-const blog = () => (
-  <Post>
-    <Suspense fallback={Fragment}>
-      <Switch>
-        {posts.map(({ content: PostComp, path, ...rest }) => (
-          <Route
-            key={path}
-            path={`/blog${path}`}
-            render={() => <PostComp {...rest} />}
-          />
-        ))}
-        <Route component={PostList} />
-      </Switch>
-    </Suspense>
-  </Post>
-);
+function Articles() {
+  return (
+    <Post>
+      <Suspense fallback={Fragment}>
+        <Switch>
+          {posts.map(({ content: PostComp, path, ...rest }) => (
+            <Route
+              key={path}
+              path={`/articles${path}`}
+              render={() => <PostComp {...rest} />}
+            />
+          ))}
+          <Route component={PostList} />
+        </Switch>
+      </Suspense>
+    </Post>
+  );
+}
 
-export default blog;
+export default Articles;
 
 const PostListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
 `;
 
 const PostListContent = styled.div`
   max-width: ${props => props.theme.maxWidthDesktop}px;
   width: 100%;
   display: grid;
-  grid-template-columns: 100%;
-  grid-gap: 60px;
+  grid-template-columns: 144px 1fr;
+  grid-gap: 20px;
   padding: 80px 0;
   position: relative;
 
@@ -112,18 +116,26 @@ const PostListItemWrapper = styled.article`
   ${sectionPadding}
 `;
 
+const PostTitleWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+`;
+
+const PostListColumn = styled.div`
+  display: grid;
+  grid-template-columns: 100%;
+  grid-gap: 60px;
+`;
+
 const PostListTitle = styled.h1`
   font-size: 120px;
   margin: 0;
-  transform: rotate(270deg) translate3d(-50%, 100%, 0);
-  transform-origin: left bottom;
-  position: absolute;
-  left: -80px;
-  top: 180px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  position: relative;
 `;
 
 const PostContent = styled(Link)`
-  max-width: 800px;
   width: 100%;
   display: grid;
   grid-template-columns: 300px 1fr;
@@ -197,14 +209,15 @@ const PostImage = styled(ProgressiveImage)`
     transition: transform 0.5s ${props => props.theme.curveFastoutSlowin};
   }
 
-  ${PostContent}:hover & img,
-  ${PostContent}:hover & video {
+  ${/* sc-selector */PostContent}:hover & img,
+  ${/* sc-selector */PostContent}:hover & video {
     transform: scale3d(1.1, 1.1, 1);
   }
 `;
 
 const PostImageWrapper = styled.div`
   position: relative;
+  /*background: rgba(255, 255, 255, 0.1)*/
 `;
 
 const PostImageTag = styled.div`
