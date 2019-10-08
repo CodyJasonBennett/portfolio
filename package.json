@@ -50,6 +50,9 @@
     "build-storybook": "build-storybook -o build/storybook && rimraf build/storybook/static/**/*.{jpg,txt,png,mp4,webm,svg}"
   },
   "reactSnap": {
+    "include": [
+      "/articles"
+    ],
     "skipThirdPartyRequests": true,
     "headless": false,
     "crawl": true
