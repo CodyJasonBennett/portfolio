@@ -1,0 +1,24 @@
+.mystgang__carousel {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 70px;
+  margin: 0;
+}
+
+.mystgang__logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #111111;
+  padding: 0 80px;
+  margin-bottom: 80px;
+  width: 100%;
+}
+
+.mystgang__logo-container--light {
+  padding: 60px 80px;
+}
+
+.mystgang__logo-container svg {
+  max-width: 400px;
+}

@@ -9,9 +9,9 @@ export default {
 };
 
 export const text = () => (
-  <StoryContainer padding={30}>
+  <StoryContainer padding={32}>
     <h2 style={{ fontWeight: 500, margin: 0 }}>
-      <DecoderText start text="Decoder text" />
+      <DecoderText start text="Decoder Text" />
     </h2>
   </StoryContainer>
 );

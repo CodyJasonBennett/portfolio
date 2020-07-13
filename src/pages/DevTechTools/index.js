@@ -1,12 +1,11 @@
 import React, { Fragment } from 'react';
-import styled from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
-import ProgressiveImage from 'components/ProgressiveImage';
+import Image from 'components/Image';
 import Footer from 'components/Footer';
 import {
   ProjectContainer, ProjectBackground, ProjectHeader, ProjectSection,
   ProjectSectionContent, ProjectImage, ProjectSectionHeading, ProjectSectionText,
-  ProjectSectionColumns, SidebarImageText, SidebarImage, ProjectTextRow
+  ProjectSectionColumns, ProjectTextRow
 } from 'components/ProjectLayout';
 import { useScrollRestore } from 'hooks';
 import { media } from 'utils/style';
@@ -64,26 +63,24 @@ function DevTechTools() {
         />
         <ProjectSection>
           <ProjectSectionContent>
-            <ProjectImage>
-              <ProgressiveImage
-                reveal
-                srcSet={`${dtt} 800w, ${dttLarge} 1440w`}
-                placeholder={dttPlaceholder}
-                sizes={`(max-width: ${media.mobile}px) 500px, (max-width: ${media.tablet}px) 800px, 1000px`}
-                alt="Landing screen of the DevTech Tools website."
-              />
-            </ProjectImage>
+            <ProjectImage
+              reveal
+              srcSet={`${dtt} 800w, ${dttLarge} 1440w`}
+              placeholder={dttPlaceholder}
+              sizes={`(max-width: ${media.mobile}px) 500px, (max-width: ${media.tablet}px) 800px, 1000px`}
+              alt="Landing screen of the DevTech Tools website."
+            />
           </ProjectSectionContent>
         </ProjectSection>
         <ProjectSection>
           <ProjectSectionColumns>
-            <SidebarImageText>
+            <ProjectTextRow>
               <ProjectSectionHeading>Visual Identity</ProjectSectionHeading>
               <ProjectSectionText>
                 We represented the technology aspect of DevTech Tools with a bundle of traces, accompanied with fresh colors and a crisp typeface.
               </ProjectSectionText>
-            </SidebarImageText>
-            <SidebarImage
+            </ProjectTextRow>
+            <Image
               srcSet={`${dttBranding} 400w, ${dttBrandingLarge} 898w`}
               placeholder={dttBrandingPlaceholder}
               sizes={`(max-width: ${media.mobile}px) 100vw, (max-width: ${media.tablet}px) 100vw, 50vw`}
@@ -105,14 +102,14 @@ function DevTechTools() {
           </ProjectSectionContent>
         </ProjectSection>
         <ProjectSection>
-          <ProjectSectionGrid>
-            <ProgressiveImage
+          <ProjectSectionColumns alterate>
+            <Image
               srcSet={`${dttTool} 400w, ${dttToolLarge} 898w`}
               placeholder={dttToolPlaceholder}
               sizes={`(max-width: ${media.mobile}px) 100vw, (max-width: ${media.tablet}px) 100vw, 50vw`}
               alt="The tool wrapper of the JSON to CSV data converter."
             />
-            <ProjectSectionGridText>
+            <ProjectTextRow>
               <ProjectSectionHeading>Setting Sail</ProjectSectionHeading>
               <ProjectSectionText>
                 DevTech Tools launched with a comprehensive set of data converters, code formatters and linters, and many other tools.
@@ -120,12 +117,12 @@ function DevTechTools() {
               <ProjectSectionText>
                 I designed and developed a simple, intuitive interface to cut development time down to a single click.
               </ProjectSectionText>
-            </ProjectSectionGridText>
-          </ProjectSectionGrid>
+            </ProjectTextRow>
+          </ProjectSectionColumns>
         </ProjectSection>
         <ProjectSection light>
           <ProjectSectionColumns>
-            <SidebarImageText>
+            <ProjectTextRow>
               <ProjectSectionHeading>Expanding the Workflow</ProjectSectionHeading>
               <ProjectSectionText>
                 Following the release of our online tools, we accompanied this release with a powerful API, giving developers complete control.
@@ -133,8 +130,8 @@ function DevTechTools() {
               <ProjectSectionText>
                 Experienced developers now had full flexibility with our tools in their projects.
               </ProjectSectionText>
-            </SidebarImageText>
-            <SidebarImage
+            </ProjectTextRow>
+            <Image
               srcSet={`${dttAPI} 400w, ${dttAPILarge} 898w`}
               placeholder={dttAPIPlaceholder}
               sizes={`(max-width: ${media.mobile}px) 100vw, (max-width: ${media.tablet}px) 100vw, 50vw`}
@@ -153,7 +150,7 @@ function DevTechTools() {
                 With the release of DevTech Tools Pipelines, tools combine into one with custom triggers, events, and other actions.
               </ProjectSectionText>
             </ProjectTextRow>
-            <ProgressiveImage
+            <Image
               srcSet={`${dttPipeline} 800w, ${dttPipelineLarge} 1440w`}
               placeholder={dttPipelinePlaceholder}
               alt="A screenshot of tools linked in the pipeline flowchart editor."
@@ -172,7 +169,7 @@ function DevTechTools() {
                 I designed and developed the DevTech Tools website, featuring a blog with weekly tutorials, comprehensive and interactive documentation for the DevTech Tools API, and a web application to put everything together.
               </ProjectSectionText>
             </ProjectTextRow>
-            <ProgressiveImage
+            <Image
               srcSet={`${dttLanding} 800w, ${dttLandingLarge} 1440w`}
               placeholder={dttLandingPlaceholder}
               alt="A screenshot of the landing page in production."
@@ -185,18 +182,5 @@ function DevTechTools() {
     </Fragment>
   );
 }
-
-const ProjectSectionGrid = styled(ProjectSectionContent)`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 70px;
-  margin: 40px 0;
-
-  @media (max-width: ${media.tablet}px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const ProjectSectionGridText = styled.div``;
 
 export default DevTechTools;

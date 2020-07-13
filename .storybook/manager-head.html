@@ -1,11 +1,12 @@
 <script>
   const titleTag = document.createElement('title');
   titleTag.text = 'Cody Bennett | Storybook';
+
   const firstMeta = document.head.querySelector('meta[charset="utf-8"]');
   document.head.insertBefore(titleTag, firstMeta.nextSibling);
 
   const callback = function(mutationsList, observer) {
-    for(let mutation of mutationsList) {
+    for (let mutation of mutationsList) {
       if (mutation.type == 'childList') {
         observer.disconnect();
         titleTag.text = 'Cody Bennett | Storybook';
@@ -31,6 +32,7 @@
 <link rel="manifest" href="https://codyb.co/manifest.json">
 <link rel="shortcut icon" href="https://codyb.co/favicon.png">
 <link rel="apple-touch-icon" href="https://codyb.co/icon-256.png">
+<link type="text/plain" rel="author" href="https://codyb.co/humans.txt">
 
 <meta property="og:image" content="https://codyb.co/social-image.png">
 <meta property="og:image:type" content="image/png">

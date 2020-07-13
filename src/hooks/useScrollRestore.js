@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { usePrevious, usePrefersReducedMotion, useRouteTransition } from '.';
+import { usePrevious, usePrefersReducedMotion } from '.';
+import { useRouteTransition } from 'hooks';
 
 function useScrollRestore() {
   const { status } = useRouteTransition();
@@ -13,8 +14,7 @@ function useScrollRestore() {
     if (hasEntered || hasEnteredReducedMotion) {
       window.scrollTo(0, 0);
       document.getElementById('MainContent').focus();
-    };
-
+    }
   }, [prefersReducedMotion, prevStatus, status]);
 }
 

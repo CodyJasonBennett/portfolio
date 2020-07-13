@@ -28,7 +28,7 @@ export const socialLinks = [
   },
   {
     label: 'Email',
-    to: '/contact',
+    url: 'mailto:hi@codyb.co',
     icon: 'email',
   },
 ];

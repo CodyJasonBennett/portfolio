@@ -1,7 +1,9 @@
 import React, { useRef, useState, useEffect, memo } from 'react';
-import styled from 'styled-components/macro';
+import classNames from 'classnames';
 import { usePrefersReducedMotion } from 'hooks';
+import './index.css';
 
+// prettier-ignore
 const chars = [
   'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd',
   'E', 'e', 'F', 'f', 'G', 'g', 'H', 'h',
@@ -10,17 +12,6 @@ const chars = [
   'Q', 'q', 'R', 'r', 'S', 's', 'T', 't',
   'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x',
   'Y', 'y', 'Z', 'z',
-];
-
-const fonts = [
-  'ヒラギノ角ゴ Pro W3',
-  'Hiragino Kaku Gothic Pro',
-  'Hiragino Sans',
-  'Osaka',
-  'メイリオ',
-  'Meiryo',
-  'Segoe UI',
-  'sans-serif',
 ];
 
 function shuffle(content, chars, position) {
@@ -34,8 +25,7 @@ function shuffle(content, chars, position) {
   });
 }
 
-function DecoderText(props) {
-  const { text, start, offset, delay, fps, ...rest } = props;
+function DecoderText({ text, start, offset, delay, fps, className, ...rest }) {
   const position = useRef(0);
   const [started, setStarted] = useState(false);
   const output = useRef([{ type: 'code', value: '' }]);
@@ -84,8 +74,9 @@ function DecoderText(props) {
         output.current = shuffle(content.current, chars, position.current);
 
         const characterMap = output.current.map(item => {
-          const className = item.type === 'actual' ? 'decoder-text__value' : 'decoder-text__code';
-          return `<span aria-hidden="true" class="${className}">${item.value}</span>`;
+          const elementClass =
+            item.type === 'actual' ? 'decoder-text__value' : 'decoder-text__code';
+          return `<span aria-hidden="true" class="${elementClass}">${item.value}</span>`;
         });
 
         contentRef.current.innerHTML = characterMap.join('');
@@ -104,10 +95,10 @@ function DecoderText(props) {
   }, [fps, offset, started]);
 
   return (
-    <DecoderWrapper className="decoder-text" {...rest}>
+    <span className={classNames('decoder-text', className)} {...rest}>
       <span className="decoder-text__label">{text}</span>
       <span className="decoder-text__content" ref={contentRef} />
-    </DecoderWrapper>
+    </span>
   );
 }
 
@@ -116,30 +107,5 @@ DecoderText.defaultProps = {
   delay: 300,
   fps: 24,
 };
-
-const DecoderWrapper = styled.span`
-  &::after {
-    content: '_';
-    visibility: hidden;
-  }
-
-  .decoder-text__label {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    width: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    position: absolute;
-  }
-
-  .decoder-text__code {
-    opacity: 0.8;
-    font-weight: var(--fontWeightRegular);
-    font-family: ${fonts.join(', ')};
-    line-height: 0;
-  }
-`;
 
 export default memo(DecoderText);

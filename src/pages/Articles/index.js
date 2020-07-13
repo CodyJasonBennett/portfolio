@@ -4,9 +4,9 @@ import styled from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
 import { useScrollRestore } from 'hooks';
 import { sectionPadding, media } from 'utils/style';
-import Post from './Post';
-import ProgressiveImage from 'components/ProgressiveImage';
 import posts from 'posts';
+import Post from 'pages/Post';
+import Image from 'components/Image';
 
 function PostListItem({
   path,
@@ -22,12 +22,12 @@ function PostListItem({
     <PostListItemWrapper>
       <PostContent to={`/articles${path}`}>
         <PostImageWrapper>
-          <PostImage
+          {/* <PostImage
             srcSet={banner ? require(`posts/assets/${banner}`) : undefined}
             videoSrc={bannerVideo ? require(`posts/assets/${bannerVideo}`) : undefined}
             placeholder={require(`posts/assets/${bannerPlaceholder}`)}
             alt={bannerAlt}
-          />
+          /> */}
           <PostImageTag>K256</PostImageTag>
         </PostImageWrapper>
         <PostText>
@@ -62,7 +62,7 @@ function PostList() {
           <PostListTitle>Articles</PostListTitle>
         </PostTitleWrapper>
         <PostListColumn>
-          {posts?.map(({ path, ...post }) => (
+          {posts.map(({ path, ...post }) => (
             <PostListItem key={path} path={path} {...post} />
           ))}
         </PostListColumn>
@@ -103,7 +103,7 @@ const PostListContent = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: 144px 1fr;
-  grid-gap: 20px;
+  gap: 20px;
   padding: 80px 0;
   position: relative;
 
@@ -126,7 +126,7 @@ const PostTitleWrapper = styled.div`
 const PostListColumn = styled.div`
   display: grid;
   grid-template-columns: 100%;
-  grid-gap: 60px;
+  gap: 60px;
 `;
 
 const PostListTitle = styled.h1`
@@ -141,7 +141,7 @@ const PostContent = styled(Link)`
   width: 100%;
   display: grid;
   grid-template-columns: 300px 1fr;
-  grid-gap: 0 40px;
+  gap: 0 40px;
   text-decoration: none;
   transition: background-color var(--durationM) ease;
 
@@ -174,13 +174,15 @@ const PostTitle = styled.h2`
   line-height: 1.2;
   color: var(--colorTextTitle);
   display: inline;
-  background: linear-gradient(var(--colorTextBody), var(--colorTextBody)) no-repeat 100% 100% / 0 2px;
+  background: linear-gradient(var(--colorTextBody), var(--colorTextBody)) no-repeat 100%
+    100% / 0 2px;
   transition: background-size var(--durationM) var(--bezierFastoutSlowin);
   padding-bottom: 2px;
 
   &:hover,
   &:focus {
-    background: linear-gradient(var(--colorTextBody), var(--colorTextBody)) no-repeat 0 100% / 100% 2px;
+    background: linear-gradient(var(--colorTextBody), var(--colorTextBody)) no-repeat 0
+      100% / 100% 2px;
   }
 
   @media (max-width: ${media.mobile}px) {
@@ -199,7 +201,7 @@ const PostDescription = styled.p`
   }
 `;
 
-const PostImage = styled(ProgressiveImage)`
+const PostImage = styled(Image)`
   height: 100%;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 70% 100%, 70% calc(100% - 14px), calc(70% - 60px) calc(100% - 14px), calc(70% - 60px) 100%, 28px 100%, 0 calc(100% - 28px));
 

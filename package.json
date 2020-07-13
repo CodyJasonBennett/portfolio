@@ -1,9 +1,11 @@
 {
   "name": "portfolio-2019",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "homepage": "https://codyb.co",
+  "description": "Portfolio site for Cody Bennett",
+  "repository": "https://github.com/HamishMW/portfolio-website.git",
+  "author": "Cody Bennett <hi@codyb.co>",
   "license": "MIT",
-  "private": true,
   "devDependencies": {
     "@storybook/addon-a11y": "^5.3.19",
     "@storybook/addon-actions": "^5.3.19",
@@ -14,29 +16,26 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "mdx-loader": "^3.0.2",
+    "prettier": "^2.0.5",
     "react-scripts": "3.4.1",
     "react-snap": "1.23.0",
     "react-test-renderer": "^16.13.1",
     "rimraf": "^3.0.2",
-    "storybook-addon-styled-component-theme": "^1.3.0",
+    "source-map-explorer": "^2.4.2",
     "stylelint": "^13.6.1",
-    "stylelint-config-recommended": "^3.0.0",
-    "stylelint-config-styled-components": "^0.1.1",
-    "stylelint-processor-styled-components": "^1.10.0"
+    "stylelint-config-recommended": "^3.0.0"
   },
   "dependencies": {
     "@mdx-js/react": "^1.6.6",
+    "classnames": "^2.2.6",
     "es6-tween": "^5.5.11",
     "ios-inner-height": "^1.1.1",
-    "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-easy-swipe": "^0.0.18",
     "react-helmet-async": "^1.0.6",
     "react-router-dom": "5.2.0",
     "react-transition-group": "^4.4.1",
-    "source-map-explorer": "^2.4.2",
-    "styled-components": "^5.1.1",
     "three": "^0.118.3"
   },
   "scripts": {
@@ -60,7 +59,7 @@
   },
   "browserslist": {
     "production": [
-      ">1%",
+      ">10%",
       "not dead",
       "not ie 11",
       "not op_mini all"
@@ -70,5 +69,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "https://codyb.co"
 }

@@ -3,17 +3,18 @@ import { Transition } from 'react-transition-group';
 import styled, { keyframes } from 'styled-components/macro';
 import Footer from 'components/Footer';
 import Divider from 'components/Divider';
-import Icon from 'components/Icon';
-import { sectionPadding, AnimFade, media } from 'utils/style';
+import { sectionPadding, AnimFade } from 'utils/style';
 import { useWindowSize, useScrollRestore } from 'hooks';
-import ProgressiveImage from 'components/ProgressiveImage';
+import Image from 'components/Image/Image';
 import GothamBold from 'assets/fonts/gotham-bold.woff2';
 import { Helmet } from 'react-helmet-async';
 import { MDXProvider } from '@mdx-js/react';
-import Anchor from 'components/Anchor';
+import Anchor from 'components/Link';
 import Code from 'components/Code';
 import { reflow } from 'utils/transition';
 import prerender from 'utils/prerender';
+import { media } from 'utils/style';
+import { ReactComponent as ArrowDown } from 'assets/arrow-down.svg';
 import { tokens, msToNum } from 'app/theme';
 
 function PostWrapper({
@@ -98,7 +99,7 @@ function PostWrapper({
             aria-label="Scroll to post content"
             onClick={handleScrollIndicatorClick}
           >
-            <Icon icon="arrowDown" />
+            <ArrowDown aria-hidden />
           </PostBannerArrow>
           <PostBannerReadTime>{readTime}</PostBannerReadTime>
         </PostHeaderText>
@@ -122,10 +123,10 @@ function PostWrapper({
 
 function imageFactory({ src, ...props }) {
   if (!src.startsWith('http')) {
-    return <Image {...props} src={require(`posts/assets/${src}`)} />;
+    return <PostImage {...props} src={require(`posts/assets/${src}`)} />;
   }
 
-  return <Image {...props} src={src} />;
+  return <PostImage {...props} src={src} />;
 }
 
 const PostArticle = styled.article`
@@ -138,25 +139,25 @@ const PostHeader = styled.header`
   padding-left: 300px;
   display: grid;
   grid-template-columns: calc(50% - 40px) 1fr;
-  grid-gap: 80px;
+  gap: 80px;
   align-items: center;
   min-height: 80vh;
 
   @media (max-width: 1600px) {
     padding-left: 200px;
-    grid-gap: 60px;
+    gap: 60px;
   }
 
   @media (max-width: ${media.laptop}px) {
     padding-left: 180px;
-    grid-gap: 40px;
+    gap: 40px;
     min-height: 70vh;
   }
 
   @media (max-width: ${media.tablet}px) {
     padding-left: 160px;
     min-height: 40vh;
-    grid-gap: 20px;
+    gap: 20px;
   }
 
   @media (max-height: 696px) {
@@ -165,7 +166,7 @@ const PostHeader = styled.header`
 
   @media (max-width: ${media.mobile}px), ${media.mobileLS} {
     grid-template-columns: 100%;
-    grid-gap: 20px;
+    gap: 20px;
     height: auto;
     padding-right: 20px;
     padding-left: 20px;
@@ -195,12 +196,12 @@ const PostDate = styled.div`
   color: rgb(var(--rgbPrimary));
   display: grid;
   grid-template-columns: 140px 1fr;
-  grid-gap: 20px;
+  gap: 20px;
   align-items: center;
 
   @media (max-width: ${media.tablet}px) {
     margin-bottom: 30px;
-    grid-gap: 10px;
+    gap: 10px;
   }
 
   @media (max-width: ${media.mobile}px) {
@@ -211,8 +212,7 @@ const PostDate = styled.div`
 const PostDateText = styled.span`
   opacity: ${props => (props.status === 'entered' ? 1 : 0)};
   transform: ${props => (props.status === 'entered' ? 'none' : 'translate3d(-5%, 0, 0)')};
-  transition:
-    opacity var(--durationXL) ease,
+  transition: opacity var(--durationXL) ease,
     transform var(--durationXL) var(--bezierFastoutSlowin);
 `;
 
@@ -281,7 +281,7 @@ const PostBanner = styled.div`
   }
 `;
 
-const PostBannerImage = styled(ProgressiveImage)`
+const PostBannerImage = styled(Image)`
   height: 100%;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 28px 100%, 0 calc(100% - 28px));
 
@@ -350,7 +350,7 @@ const PostBannerReadTime = styled.div`
   display: grid;
   align-items: center;
   grid-template-columns: 60px 1fr;
-  grid-gap: 10px;
+  gap: 10px;
   animation-name: ${AnimFade};
   animation-timing-function: var(--bezierFastoutSlowin);
   animation-duration: 0.6s;
@@ -496,7 +496,7 @@ const Paragrapgh = styled.p`
   }
 `;
 
-const Image = styled.img`
+const PostImage = styled.img`
   display: block;
   margin: 80px 0;
   max-width: 100%;

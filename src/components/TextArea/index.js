@@ -1,7 +1,16 @@
 import React, { useRef, useState, useEffect } from 'react';
+import classNames from 'classnames';
+import './index.css';
 
-function TextArea(props) {
-  const { allowResize, value, onChange, minRows = 1, maxRows, ...restProps } = props;
+const TextArea = ({
+  className,
+  resize = 'none',
+  value,
+  onChange,
+  minRows = 1,
+  maxRows,
+  ...rest
+}) => {
   const [rows, setRows] = useState(minRows);
   const [textareaDimensions, setTextareaDimensions] = useState();
   const textareaRef = useRef();
@@ -9,11 +18,12 @@ function TextArea(props) {
   useEffect(() => {
     const style = getComputedStyle(textareaRef.current);
     const lineHeight = parseInt(style.lineHeight, 10);
-    const paddingHeight = parseInt(style.paddingTop, 10) + parseInt(style.paddingBottom, 10);
+    const paddingHeight =
+      parseInt(style.paddingTop, 10) + parseInt(style.paddingBottom, 10);
     setTextareaDimensions({ lineHeight, paddingHeight });
   }, []);
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     onChange(event);
 
     const { lineHeight, paddingHeight } = textareaDimensions;
@@ -31,19 +41,20 @@ function TextArea(props) {
       event.target.scrollTop = event.target.scrollHeight;
     }
 
-    setRows((maxRows && currentRows > maxRows) ? maxRows : currentRows);
+    setRows(maxRows && currentRows > maxRows ? maxRows : currentRows);
   };
 
   return (
     <textarea
-      {...restProps}
+      className={classNames('textarea', className)}
       ref={textareaRef}
       onChange={handleChange}
-      style={{ resize: allowResize ? undefined : 'none' }}
+      style={{ '--resize': resize }}
       rows={rows}
       value={value}
+      {...rest}
     />
   );
-}
+};
 
 export default TextArea;

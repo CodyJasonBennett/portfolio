@@ -1,13 +1,12 @@
 import React, { lazy, useMemo, Suspense, Fragment } from 'react';
-import styled from 'styled-components/macro';
 import { Helmet } from 'react-helmet-async';
-import ProgressiveImage from 'components/ProgressiveImage';
+import Image from 'components/Image';
 import { useScrollRestore } from 'hooks';
 import Footer from 'components/Footer';
 import {
   ProjectContainer, ProjectBackground, ProjectHeader, ProjectSection,
-  ProjectSectionContent, ProjectImage, ProjectSectionColumns, SidebarImageText,
-  ProjectSectionHeading, ProjectSectionText, SidebarImage, ProjectTextRow
+  ProjectSectionContent, ProjectImage, ProjectSectionColumns, ProjectSectionHeading,
+  ProjectSectionText, ProjectTextRow
 } from 'components/ProjectLayout';
 import { media } from 'utils/style';
 import prerender from 'utils/prerender';
@@ -20,8 +19,7 @@ import mystgangPlaceholder from 'assets/mystgang-placeholder.png';
 import mystgangBranding from 'assets/mystgang-branding.png';
 import mystgangBrandingLarge from 'assets/mystgang-branding-large.png';
 import mystgangBrandingPlaceholder from 'assets/mystgang-branding-placeholder.png';
-import mystgangLogo from 'assets/mystgang-logo.png';
-import mystgangLogoPlaceholder from 'assets/mystgang-logo-placeholder.png';
+import { ReactComponent as MystGangLogo } from 'assets/mystgang-logo.svg';
 import mystgangSlidePlaceholder from 'assets/mystgang-slide-placeholder.png';
 import mystgangSlide1 from 'assets/mystgang-slide-1.png';
 import mystgangSlide1Large from 'assets/mystgang-slide-1-large.png';
@@ -39,8 +37,9 @@ import mystgangSlide7 from 'assets/mystgang-slide-7.png';
 import mystgangSlide7Large from 'assets/mystgang-slide-7-large.png';
 import mystgangSlide8 from 'assets/mystgang-slide-8.png';
 import mystgangSlide8Large from 'assets/mystgang-slide-8-large.png';
+import './index.css';
 
-const DisplacementCarousel = lazy(() => import('components/DisplacementCarousel'));
+const Carousel = lazy(() => import('components/Carousel'));
 
 const title = 'MystGang 2019';
 const description = 'A personal site for the gaming content creator known as MystGang. This project involved designing a hub to connect MystGang\'s content and social media.';
@@ -73,20 +72,18 @@ function MystGang() {
         />
         <ProjectSection>
           <ProjectSectionContent>
-            <ProjectImage>
-              <ProgressiveImage
-                reveal
-                srcSet={`${mystgang} 800w, ${mystgangLarge} 1440w`}
-                placeholder={mystgangPlaceholder}
-                sizes={`(max-width: ${media.mobile}px) 500px, (max-width: ${media.tablet}px) 800px, 1000px`}
-                alt="Landing screne of the MystGang website."
-              />
-            </ProjectImage>
+            <ProjectImage
+              reveal
+              srcSet={`${mystgang} 800w, ${mystgangLarge} 1440w`}
+              placeholder={mystgangPlaceholder}
+              sizes={`(max-width: ${media.mobile}px) 500px, (max-width: ${media.tablet}px) 800px, 1000px`}
+              alt="Landing screne of the MystGang website."
+            />
           </ProjectSectionContent>
         </ProjectSection>
         <ProjectSection>
           <ProjectSectionColumns>
-            <SidebarImageText>
+            <ProjectTextRow>
               <ProjectSectionHeading>Building an Identity</ProjectSectionHeading>
               <ProjectSectionText>
                 We started out laying the foundations of MystGang's brand.
@@ -94,8 +91,8 @@ function MystGang() {
               <ProjectSectionText>
                 Subtle, muted colors, an elegant typeface complete with their signature color: brown.
               </ProjectSectionText>
-            </SidebarImageText>
-            <SidebarImage
+            </ProjectTextRow>
+            <Image
               srcSet={`${mystgangBranding} 400w, ${mystgangBrandingLarge} 898w`}
               placeholder={mystgangBrandingPlaceholder}
               sizes={`(max-width: ${media.mobile}px) 100vw, (max-width: ${media.tablet}px) 100vw, 50vw`}
@@ -105,15 +102,13 @@ function MystGang() {
         </ProjectSection>
         <ProjectSection light>
           <ProjectSectionContent>
-            <LogoContainer>
-              <ProgressiveImage
-                src={mystgangLogo}
-                srcSet={mystgangLogo}
-                placeholder={mystgangLogoPlaceholder}
-                sizes={`(max-width: ${media.mobile}px) 100vw, (max-width: ${media.tablet}px) 100vw, 50vw`}
-                alt="MystGang's Monogram, featuring a custom designed letter M."
+            <div className="mystgang__logo-container">
+              <MystGangLogo
+                role="img"
+                className="mystgang__logo"
+                aria-label="MystGang's Monogram, featuring a custom designed letter M."
               />
-            </LogoContainer>
+            </div>
             <ProjectTextRow center>
               <ProjectSectionHeading>Identity Design</ProjectSectionHeading>
               <ProjectSectionText>
@@ -128,16 +123,15 @@ function MystGang() {
               <ProjectSectionHeading>The Website</ProjectSectionHeading>
             </ProjectTextRow>
           </ProjectSectionContent>
-          <ProjectSectionSlider>
+          <ProjectSectionContent className="mystgang__carousel">
             <Suspense fallback={null}>
-              <DisplacementCarousel
+              <Carousel
                 placeholder={mystgangSlidePlaceholder}
                 images={useMemo(() => [
                   {
                     src: mystgangSlide1,
                     srcset: `${mystgangSlide1} 960w, ${mystgangSlide1Large} 1920w`,
                     alt: 'MystGang Splash Screen',
-                    override: true
                   },
                   {
                     src: mystgangSlide2,
@@ -179,38 +173,12 @@ function MystGang() {
                 height={useMemo(() => 1080, [])}
               />
             </Suspense>
-          </ProjectSectionSlider>
+          </ProjectSectionContent>
         </ProjectSection>
       </ProjectContainer>
       <Footer />
     </Fragment>
   );
 }
-
-const ProjectSectionSlider = styled(ProjectSectionContent)`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 70px;
-  margin: 0;
-`;
-
-const LogoContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--rgbBackground);
-  padding: 60px 80px;
-  margin-bottom: 80px;
-  width: 100%;
-
-  @media (max-width: ${media.mobile}px) {
-    padding: 30px 40px;
-    margin-bottom: 40px;
-  }
-
-  div, img {
-    max-width: 800px;
-  }
-`;
 
 export default MystGang;

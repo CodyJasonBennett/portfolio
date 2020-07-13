@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
 import { Helmet } from 'react-helmet-async';
-import ProgressiveImage from 'components/ProgressiveImage';
+import Image from 'components/Image';
 import Anchor from 'components/Anchor';
 import Footer from 'components/Footer';
 import {
   ProjectContainer, ProjectBackground, ProjectHeader, ProjectSection,
   ProjectSectionContent, ProjectImage, ProjectSectionHeading, ProjectSectionText,
-  ProjectSectionColumns, SidebarImageText, SidebarImage, ProjectTextRow
+  ProjectSectionColumns, ProjectTextRow
 } from 'components/ProjectLayout';
 import { useScrollRestore } from 'hooks';
 import { media } from 'utils/style';
@@ -70,20 +70,18 @@ function ProjectModern() {
         />
         <ProjectSection>
           <ProjectSectionContent>
-            <ProjectImage>
-              <ProgressiveImage
-                reveal
-                srcSet={`${modern} 800w, ${modernLarge} 1440w`}
-                placeholder={modernPlaceholder}
-                sizes={`(max-width: ${media.mobile}px) 500px, (max-width: ${media.tablet}px) 800px, 1000px`}
-                alt="Landing screen of the DevTech Tools website."
-              />
-            </ProjectImage>
+            <ProjectImage
+              reveal
+              srcSet={`${modern} 800w, ${modernLarge} 1440w`}
+              placeholder={modernPlaceholder}
+              sizes={`(max-width: ${media.mobile}px) 500px, (max-width: ${media.tablet}px) 800px, 1000px`}
+              alt="Landing screen of the DevTech Tools website."
+            />
           </ProjectSectionContent>
         </ProjectSection>
         <ProjectSection>
           <ProjectSectionColumns>
-            <SidebarImageText>
+            <ProjectTextRow>
               <ProjectSectionHeading>Visual Identity</ProjectSectionHeading>
               <ProjectSectionText>
                 Project Modern is a splinter community from a gamemode based from the card game: Magic, the Gathering in protest of recent conflict of interest in game management.
@@ -91,8 +89,8 @@ function ProjectModern() {
               <ProjectSectionText>
                 We represented the modern or new feel behind the mission of Project Modern with custom typography with a plus for new, accompanied with fresh colors and a crisp typeface.
               </ProjectSectionText>
-            </SidebarImageText>
-            <SidebarImage
+            </ProjectTextRow>
+            <Image
               srcSet={`${modernBranding} 400w, ${modernBrandingLarge} 898w`}
               placeholder={modernBrandingPlaceholder}
               sizes={`(max-width: ${media.mobile}px) 100vw, (max-width: ${media.tablet}px) 100vw, 50vw`}
@@ -111,7 +109,7 @@ function ProjectModern() {
                 We kept the brand and style of Project Modern consistent throughout its <Anchor href="https://storybook.projectmodern.gg" target="_blank">component-based design</Anchor>.
               </ProjectSectionText>
             </ProjectTextRow>
-            <ProgressiveImage
+            <Image
               srcSet={`${modernComponents} 800w, ${modernComponentsLarge} 1440w`}
               placeholder={modernComponentsPlaceholder}
               alt="A screenshot of Project Modern's components from Storybook."
@@ -127,7 +125,7 @@ function ProjectModern() {
                 A website is the biggest tell in brand. With a good, lasting impression, I designed and developed elegant interfaces, complimented with inviting interactions throughout the website.
               </ProjectSectionText>
             </ProjectTextRow>
-            <ProgressiveImage
+            <Image
               srcSet={`${modernLanding} 800w, ${modernLandingLarge} 1440w`}
               placeholder={modernLandingPlaceholder}
               alt="A screenshot of the landing page in production."
@@ -143,13 +141,13 @@ function ProjectModern() {
                 Project Modern boasts a large, healthy playerbase, and we showed that with cultivated tournaments for everyone.
               </ProjectSectionText>
             </ProjectTextRow>
-            <ProgressiveImage
+            <Image
               srcSet={`${modernEvents} 800w, ${modernEventsLarge} 1440w`}
               placeholder={modernEventsPlaceholder}
               alt="A screenshot of the events page in production."
               sizes={`(max-width: ${media.mobile}px) 500px, (max-width: ${media.tablet}px) 800px, 1000px`}
             />
-            <ProgressiveImage
+            <Image
               srcSet={`${modernEvent} 800w, ${modernEventLarge} 1440w`}
               placeholder={modernEventPlaceholder}
               alt="A screenshot of an event page in production."
@@ -166,13 +164,13 @@ function ProjectModern() {
                 Project Modern's events' catalogue isn't the end. The website is designed to encourage and capture event signup, automating everything with ease.
               </ProjectSectionText>
             </ProjectTextRow>
-            <ProgressiveImage
+            <Image
               srcSet={`${modernSignup} 800w, ${modernSignupLarge} 1440w`}
               placeholder={modernSignupPlaceholder}
               alt="A screenshot of an event's signup page in production."
               sizes={`(max-width: ${media.mobile}px) 500px, (max-width: ${media.tablet}px) 800px, 1000px`}
             />
-            <ProgressiveImage
+            <Image
               srcSet={`${modernComplete} 800w, ${modernCompleteLarge} 1440w`}
               placeholder={modernCompletePlaceholder}
               alt="A screenshot showing an onboarding page after signup in production."

@@ -10,7 +10,7 @@ export default {
 };
 
 export const phone = () => (
-  <StoryContainer fullWidth padding={30}>
+  <StoryContainer fullWidth padding={32}>
     <Model
       enableControls
       cameraPosition={[0, 0, 8]}
@@ -25,7 +25,7 @@ export const phone = () => (
 );
 
 export const laptop = () => (
-  <StoryContainer fullWidth padding={30}>
+  <StoryContainer fullWidth padding={32}>
     <Model
       enableControls
       cameraPosition={[0, 0, 6]}
