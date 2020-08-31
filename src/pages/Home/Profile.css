@@ -132,33 +132,70 @@
   opacity: 1;
 }
 
+@keyframes image-reveal {
+  0% {
+    transform: scale3d(0, 1, 1);
+    transform-origin: left;
+  }
+  49% {
+    transform: scale3d(1, 1, 1);
+    transform-origin: left;
+  }
+  50% {
+    transform: scale3d(1, 1, 1);
+    transform-origin: right;
+  }
+  100% {
+    transform: scale3d(0, 1, 1);
+    transform-origin: right;
+  }
+}
+
 .profile__image-wrapper {
   position: relative;
   max-width: 100%;
 }
 
+.profile__image::before {
+  content: '';
+  background-color: rgb(var(--rgbAccent));
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: scale3d(0, 1, 1);
+  transform-origin: left;
+  z-index: 16;
+}
+
+.profile__image--entered::before {
+  animation: image-reveal 1.8s var(--bezierFastoutSlowin) var(--delay);
+  animation-iteration-count: 1;
+}
+
 .profile__image {
   max-width: 100%;
   width: 960px;
-  height: auto;
+  height: 560px;
+  position: relative;
 }
 
-@keyframes imageReveal {
-  0% {
-    background: none;
-  }
-  100% {
-    background: rgb(var(--rgbBackgroundLight));
-  }
+.profile__image .selfie__canvas {
+  opacity: 0;
 }
 
-.profile__image--entering,
-.profile__image--entered {
-  animation: var(--durationM) imageReveal var(--durationXL) forwards;
-  background: rgb(var(--rgbBackgroundLight));
-  transition-duration: var(--durationM);
-  transition-property: background;
-  transition-timing-function: var(--bezierFastoutSlowin);
+.profile__image--entered .selfie__canvas {
+  animation: fade-in var(--durationM) ease var(--delay) forwards;
+  animation-iteration-count: 1;
+  animation-delay: 1s;
+}
+
+@media (max-width: 1024px) {
+  .profile__image {
+    width: 960px;
+    height: 1120px;
+  }
 }
 
 .profile__button {

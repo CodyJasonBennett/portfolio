@@ -10,15 +10,15 @@ import {
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { spring, value } from 'popmotion';
-import { usePrefersReducedMotion, useInViewport } from 'hooks';
+import { useAppContext, usePrefersReducedMotion, useInViewport } from 'hooks';
 import { renderPixelRatio, cleanScene, cleanRenderer, removeLights } from 'utils/three';
+import { rgbToThreeColor } from 'utils/style';
 import selfieModelPath from 'assets/selfie.glb';
+import './Selfie.css';
 
-const Selfie = ({
-  className,
-  alt,
-  ...rest
-}) => {
+const Selfie = ({ className, delay, alt, ...rest }) => {
+  const { theme } = useAppContext();
+  const { rgbBackgroundLight } = theme;
   const container = useRef();
   const canvas = useRef();
   const renderer = useRef();
@@ -34,8 +34,6 @@ const Selfie = ({
 
     renderer.current = new WebGLRenderer({
       canvas: canvas.current,
-      alpha: true,
-      antialias: false,
       powerPreference: 'high-performance',
     });
 
@@ -44,7 +42,7 @@ const Selfie = ({
     renderer.current.outputEncoding = sRGBEncoding;
     renderer.current.physicallyCorrectLights = true;
 
-    camera.current = new PerspectiveCamera(40, clientWidth / clientHeight, 0.1, 800);
+    camera.current = new PerspectiveCamera(45, clientWidth / clientHeight, 0.1, 800);
     camera.current.position.z = 24;
 
     scene.current = new Scene();
@@ -70,12 +68,13 @@ const Selfie = ({
     dirLight.position.set(30, 20, 32);
 
     lights.current = [ambientLight, dirLight];
+    scene.current.background = rgbToThreeColor(rgbBackgroundLight);
     lights.current.forEach(light => scene.current.add(light));
 
     return () => {
       removeLights(lights.current);
     };
-  }, []);
+  }, [rgbBackgroundLight]);
 
   // Handles window resize
   useEffect(() => {
@@ -168,6 +167,7 @@ const Selfie = ({
     <div
       className={classNames('selfie', className)}
       ref={container}
+      style={{ '--delay': delay }}
       role="img"
       aria-label={alt}
       {...rest}

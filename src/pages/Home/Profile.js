@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { lazy, Fragment, Suspense } from 'react';
 import classNames from 'classnames';
 import { Transition } from 'react-transition-group';
 import { Link } from 'components/Link';
@@ -6,14 +6,12 @@ import Anchor from 'components/Anchor';
 import { Button } from 'components/Button';
 import DecoderText from 'components/DecoderText';
 import Divider from 'components/Divider';
-import Image from 'components/Image';
 import Section from 'components/Section';
 import { reflow } from 'utils/transition';
-import { media } from 'utils/style';
-import profileImg from 'assets/profile.png';
-import profileImgLarge from 'assets/profile-large.png';
-import profileImgPlaceholder from 'assets/profile-placeholder.png';
+import prerender from 'utils/prerender';
 import './Profile.css';
+
+const Selfie = lazy(() => import('./Selfie'));
 
 const ProfileText = ({ status, titleId }) => (
   <Fragment>
@@ -85,19 +83,18 @@ const Profile = ({ id, visible, sectionRef }) => {
                   About Me
                 </div>
               </div>
-              <div className="profile__image-wrapper">
-                <Image
-                  reveal
-                  className={classNames(
-                    'profile__image',
-                    `profile__image--${status}`
-                  )}
-                  delay={100}
-                  placeholder={profileImgPlaceholder}
-                  srcSet={`${profileImg} 480w, ${profileImgLarge} 960w`}
-                  sizes={`(max-width: ${media.mobile}px) 100vw, 480px`}
-                  alt=""
-                />
+              <div
+                className="profile__image-wrapper"
+              >
+                {!prerender &&
+                  <Suspense fallback={null}>
+                    <Selfie
+                      className={classNames('profile__image', `profile__image--${status}`)}
+                      delay={100}
+                      alt="A 3D rendition of myself."
+                    />
+                  </Suspense>
+                }
               </div>
             </div>
           </div>
